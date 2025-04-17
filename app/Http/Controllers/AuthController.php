@@ -53,16 +53,16 @@ class AuthController extends Controller
         $validatedData = $request->validated();
 
         try {
-
             $user = User::create([
                 'username' => $validatedData['username'],
                 'password' => Hash::make($validatedData['password']),
             ]);
 
-            return response()->json([
-                'message' => 'User registered successfully',
+            return $this->success([
                 'user' => $user,
+                'token' => $user->createToken('Api Token of ' . $user->username)->plainTextToken,
             ], 201);
+
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Registration failed',
