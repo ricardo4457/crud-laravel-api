@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\HttpResponses;
 
 use App\Models\User;
 use App\Http\Requests\AuthRequest;
@@ -15,6 +16,7 @@ use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
+    use HttpResponses;
 
     public function login(AuthRequest $request)
     {
