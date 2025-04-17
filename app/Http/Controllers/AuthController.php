@@ -38,9 +38,9 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        return response()->json([
-            'message' => 'Logout successful',
-        ]);
+        Auth::user()->currentAccessToken()->delete();
+
+        return $this->success(['message' => 'Logged out successfully and token is deleted']);
     }
 
     public function register(UserRequest $request): JsonResponse
@@ -57,7 +57,6 @@ class AuthController extends Controller
                 'user' => $user,
                 'token' => $user->createToken('Api Token of ' . $user->username)->plainTextToken,
             ], 201);
-
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Registration failed',
