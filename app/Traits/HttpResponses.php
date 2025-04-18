@@ -4,18 +4,23 @@ namespace App\Traits;
 
 trait HttpResponses
 {
-    protected function success($data, $message = 'Success', $status = 200)
+    protected function success($data, $message = null, $code = 200)
     {
         return response()->json([
+            'status' => 'Request was successful',
             'message' => $message,
             'data' => $data,
-        ], $status);
+
+        ], $code);
     }
 
-    protected function error($message, $status = 400)
+    protected function error( $data, $message, $code = 400)
     {
         return response()->json([
+            'status' => 'An error occurred',
             'message' => $message,
-        ], $status);
+            'data' => $data,
+
+        ], $code);
     }
 }
