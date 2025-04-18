@@ -18,8 +18,8 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->unique()->sentence(),
-            'description' => $this->faker->text(),
+            'title' => $this->faker->unique()->sentence(4),
+            'description' => $this->faker->text(255),
             'user_id' =>  User::all()->random()->id,
         ];
     }
