@@ -10,8 +10,6 @@ use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
-use function Laravel\Prompts\error;
-
 class TaskCrudController extends Controller
 {
     use HttpResponses;
@@ -69,8 +67,14 @@ class TaskCrudController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Task $task)
     {
-        //
+        if (Auth::user()->id !== $task->user_id) {
+            return $this->error('', 'You are not authorized to edit this task', 403);
+        }
+        $task->delete();
+        return response('Task deleted SuccesFully', 204);
     }
+
+
 }
