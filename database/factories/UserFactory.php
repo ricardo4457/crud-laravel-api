@@ -22,7 +22,7 @@ class UserFactory extends Factory
     {
         return [
             'username' => $this->faker->unique()->userName,
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => Hash::make('securepassword123'),
             'created_at' => now(),
             'updated_at' => now(),
         ];

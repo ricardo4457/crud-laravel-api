@@ -18,10 +18,6 @@ class DatabaseSeeder extends Seeder
             ->count(10)
             ->create();
 
-        User::factory()->create([
-            'username' => 'admin',
-            'password' => bcrypt('securepassword123')
-        ]);
 
         $users->each(function ($user) {
             Task::factory()
