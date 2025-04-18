@@ -44,10 +44,8 @@ class TaskCrudController extends Controller
      */
     public function show(Task $task)
     {
-        if (Auth::user()->id !== $task->user_id) {
-            return $this->error('', 'You are not authorized to view this task', 403);
-        }
-        return new TaskResource($task);
+
+        return  $this->isNotAutorized($task) ? $this->isNotAutorized($task) : new TaskResource($task);
     }
 
     /**
@@ -56,8 +54,8 @@ class TaskCrudController extends Controller
     public function update(Request $request, Task $task)
     {
 
-        if (Auth::user()->id !== $task->user_id) {
-            return $this->error('', 'You are not authorized to edit this task', 403);
+        if ($this->isNotAutorized($task)) {
+            return $this->isNotAutorized($task);
         }
         $task->update($request->all());
 
@@ -69,12 +67,13 @@ class TaskCrudController extends Controller
      */
     public function destroy(Task $task)
     {
-        if (Auth::user()->id !== $task->user_id) {
-            return $this->error('', 'You are not authorized to edit this task', 403);
-        }
-        $task->delete();
-        return response('Task deleted SuccesFully', 204);
+        return  $this->isNotAutorized($task) ? $this->isNotAutorized($task) : $task->delete();
     }
 
-
+    private function isNotAutorized($task)
+    {
+        if (Auth::user()->id !== $task->user_id) {
+            return $this->error('', 'You are not authorized access task', 403);
+        }
+    }
 }
