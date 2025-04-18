@@ -1,3 +1,9 @@
+# **Laravel CRUD API**
+
+This is an API project developed in Laravel that implements CRUD operations (Create, Read, Update, Delete) to manage resources. The project uses authentication, CSV data export, activity logging, and follows development best practices.
+
+---
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -7,55 +13,160 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## **Features**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- CRUD operations to manage resources.
+- User task export in CSV format.
+- User authentication.
+- Activity logging with the `spatie/laravel-activitylog` package.
+- Modular and reusable structure using Traits.
+- Automated tests to ensure code quality.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## **Requirements**
 
-## Learning Laravel
+Make sure the following requirements are installed on your environment:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **PHP** >= 8.0  
+- **Composer**  
+- **MySQL** or another compatible database  
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## **Project Setup**
 
-## Laravel Sponsors
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-username/api-laravel-crud.git
+cd api-laravel-crud
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. Install Dependencies
+Install PHP dependencies:
+```bash
+composer install
+```
 
-### Premium Partners
+### 3. Configure the `.env` File
+Copy the example file and configure your environment variables:
+```bash
+cp .env.example .env
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+Edit the `.env` file to include your database settings:
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_database
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
 
-## Contributing
+### 4. Generate Application Key
+```bash
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+### 5. Run Migrations and Seeders
+```bash
+php artisan migrate --seed
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 6. Serve the Application  
+Access the app at http://localhost:8000.
+```bash
+php artisan serve
+```
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## **Project Structure**
 
-## License
+### **Controllers**
+- **`AuthController`**: Handles user authentication (registration, login, logout).
+- **`TaskCrudController`**: Handles CRUD operations for tasks.
+- **`TaskController`**: Includes features like task export in CSV format.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### **Models**
+- **`User`**: Represents system users.
+- **`Task`**: Represents tasks associated with users.
+
+### **Traits**
+- **`HttpResponses`**: Provides reusable methods for standardized JSON responses (`success` and `error`).
+
+### **Requests**
+- **`RegisterRequest`**: Validates user registration data.
+- **`LoginRequest`**: Validates login credentials.
+
+### **Resources**
+- **`UserResource`**: Formats the user data output.
+- **`TaskResource`**: Formats the task data output.
+
+### **Seeders**
+- **`UserSeeder`**: Populates the users table with initial data.
+- **`TaskSeeder`**: Populates the tasks table with initial data.
+
+---
+
+## **API Routes**
+
+### **Public Routes**
+- **`POST /register`**: Registers a new user.
+- **`POST /login`**: Logs in a user.
+
+### **Protected Routes (auth:sanctum)**
+- **`POST /logout`**: Logs out the authenticated user.
+
+### **Example: Register a User**
+**Endpoint**: `POST /register`
+
+**Request Payload**:
+```json
+{
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "password": "password123",
+    "password_confirmation": "password123"
+}
+```
+
+---
+
+## **Activity Logging**
+
+The project uses the `spatie/laravel-activitylog` package to log system activities.
+
+### **Configuration**
+- **Table**: `activity_log`
+- **Model**: `Spatie\Activitylog\Models\Activity`
+
+### **Custom Configuration**
+- Config file: `config/activitylog.php`
+- Logs are stored in the database by default.
+
+---
+
+## **Composer Dependencies**
+
+### **Key Dependencies**
+- **`laravel/sanctum`**: Token-based authentication.
+- **`spatie/laravel-activitylog`**: Activity logging.
+- **`spatie/simple-excel`**: CSV file handling.
+
+---
+
+## **Roadmap**
+
+The following are planned improvements and features for the project:
+
+- [x] **CRUD Operations for Tasks**: Implement basic Create, Read, Update, and Delete functionality for tasks.
+- [x] **Auth User**: Add user registration, login, and logout functionality.
+- [x] **CSV Export**: Enable exporting user tasks in CSV format.
+- [x] **Activity Logging**: Log system activities using the `spatie/laravel-activitylog` package.
+- [x] **Search and Filters**: Implement search and filtering functionality for tasks.
+
+---
