@@ -2,9 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Task\TaskCrudController;
-use App\Http\Controllers\Task\TaskController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\Task\TaskCrudController;
+use App\Http\Controllers\Api\Task\TaskController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

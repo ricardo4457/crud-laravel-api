@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Traits\HttpResponses;
+use App\Http\Controllers\Controller;
+
 
 use App\Models\User;
 use App\Http\Requests\AuthRequest;
@@ -11,9 +12,7 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
-
-
-
+use App\Traits\HttpResponses;
 class AuthController extends Controller
 {
     use HttpResponses;
@@ -63,5 +62,4 @@ class AuthController extends Controller
 
         return $this->success(['message' => 'Logged out successfully']);
     }
-
 }
