@@ -6,11 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Resources\Task\TaskResource;
 use App\Models\Task;
+use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+use function Laravel\Prompts\error;
+
 class TaskCrudController extends Controller
 {
+    use HttpResponses;
     /**
      * Display a listing of the resource.
      */
@@ -40,9 +44,12 @@ class TaskCrudController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Task $task)
     {
-        //
+        if (Auth::user()->id !== $task->user_id) {
+            return $this->error('','You are not authorized to view this task', 403);
+        }
+        return new TaskResource($task);
     }
 
     /**
