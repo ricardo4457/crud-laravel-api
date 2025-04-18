@@ -15,6 +15,6 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // Protected API routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-   Route::resource('/tasks', [TaskCrudController::class]);
+   Route::resource('task', TaskCrudController::class);
     Route::post('/logout', [AuthController::class, 'logout']);
 });
