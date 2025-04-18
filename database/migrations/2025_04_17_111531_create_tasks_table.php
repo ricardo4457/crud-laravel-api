@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('title', 50);
-            $table->string('description', 255);
+            $table->string('title');
+            $table->string('description');
             $table->foreign('user_id')
                   ->references('id')
                   ->on('users')
