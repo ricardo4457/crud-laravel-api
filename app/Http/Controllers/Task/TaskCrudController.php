@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Resources\Task\TaskResource;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
@@ -23,9 +24,17 @@ class TaskCrudController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-        //
+       $request->validated($request->all());
+
+         $task = Task::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'user_id' => Auth::user()->id,
+          ]);
+
+          return new TaskResource($task);
     }
 
     /**
