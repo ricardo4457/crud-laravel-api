@@ -20,9 +20,9 @@ class TaskCrudController extends Controller
      */
     public function index()
     {
-       return TaskResource::collection(
+        return TaskResource::collection(
             Task::where('user_id', Auth::user()->id)->get()
-       );
+        );
     }
 
     /**
@@ -30,15 +30,15 @@ class TaskCrudController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-       $request->validated($request->all());
+        $request->validated($request->all());
 
-         $task = Task::create([
-                'title' => $request->title,
-                'description' => $request->description,
-                'user_id' => Auth::user()->id,
-          ]);
+        $task = Task::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'user_id' => Auth::user()->id,
+        ]);
 
-          return new TaskResource($task);
+        return new TaskResource($task);
     }
 
     /**
@@ -47,7 +47,7 @@ class TaskCrudController extends Controller
     public function show(Task $task)
     {
         if (Auth::user()->id !== $task->user_id) {
-            return $this->error('','You are not authorized to view this task', 403);
+            return $this->error('', 'You are not authorized to view this task', 403);
         }
         return new TaskResource($task);
     }
@@ -55,9 +55,15 @@ class TaskCrudController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Task $task)
     {
-        //
+
+        if (Auth::user()->id !== $task->user_id) {
+            return $this->error('', 'You are not authorized to edit this task', 403);
+        }
+        $task->update($request->all());
+
+        return new TaskResource($task);
     }
 
     /**
