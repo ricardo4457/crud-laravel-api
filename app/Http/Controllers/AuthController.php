@@ -34,14 +34,6 @@ class AuthController extends Controller
             'token' => $user->createToken('Api Token of ' . $user->username)->plainTextToken,
         ]);
     }
-    public function logout()
-    {
-        Auth::logout();
-
-        Auth::user()->currentAccessToken()->delete();
-
-        return $this->success(['message' => 'Logged out successfully and token is deleted']);
-    }
 
     public function register(UserRequest $request): JsonResponse
     {
@@ -64,4 +56,12 @@ class AuthController extends Controller
             ], 500);
         }
     }
+
+    public function logout()
+    {
+        Auth::user()->currentAccessToken()->delete();
+
+        return $this->success(['message' => 'Logged out successfully']);
+    }
+
 }
