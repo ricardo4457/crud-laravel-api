@@ -22,11 +22,16 @@ onMounted(() => {
   taskStore.fetchTasks().then(() => {
     console.log('Fetched Tasks:', taskStore.tasks);
   });
+  // for debugging purposes
+  // taskStore.fetchTasks().then(() => {
+  //   console.log('Fetched Tasks:', taskStore.tasks);
+  // });
 });
 
 async function handleSearch(query) {
   searchQuery.value = query;
-  console.log('Search Query:', query);
+  // for debugging purposes
+  // console.log('Search Query:', query);
   
   if (query.trim()) {
     await taskStore.searchTasks(query);
