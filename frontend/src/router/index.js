@@ -41,6 +41,7 @@ const router = createRouter({
       path: '/task/:id',
       name: 'TaskView',
       component: TaskView,
+      props: (route) => ({ id: route.params.id }),
     },
     {
       path: '/logout',
