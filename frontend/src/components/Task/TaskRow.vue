@@ -2,7 +2,7 @@
   <tr>
     <td>{{ task.title }}</td>
     <td>
-      <ActionMenu @action="emitAction" />
+      <ActionMenu />
     </td>
   </tr>
 </template>
