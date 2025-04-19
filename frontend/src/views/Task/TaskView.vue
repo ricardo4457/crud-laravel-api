@@ -15,7 +15,7 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { useTaskStore } from '@/stores/taskStore'
+import { useTaskStore } from '@/stores/task'
 
 const route = useRoute()
 const taskStore = useTaskStore()

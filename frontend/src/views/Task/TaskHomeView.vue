@@ -13,7 +13,7 @@
 import { ref, computed, onMounted } from 'vue';
 import SearchInput from '@/components/SearchInput.vue';
 import TaskTable from '@/components/Task/TaskTable.vue';
-import { useTaskStore } from '@/stores/taskStore';
+import { useTaskStore } from '@/stores/task';
 
 const taskStore = useTaskStore();
 const searchQuery = ref('');
