@@ -28,13 +28,13 @@ const router = createRouter({
     {
       path: '/logout',
       name: 'Logout',
-      beforeEnter: (next) => {
-        const authStore = useAuthStore()
-        authStore.logout()
-        next({ name: 'Login' }) 
+      beforeEnter: (to, from, next) => {
+        const authStore = useAuthStore();
+        authStore.logout();
+        next({ name: 'Login' });
       },
-      meta: { requiresAuth: true }, 
-    },
+      meta: { requiresAuth: true },
+    }
   ],
 })
 // Navigation guard to protect routes
