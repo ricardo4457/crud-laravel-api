@@ -1,8 +1,8 @@
 <template>
   <tr>
-    <td>{{ task.title }}</td>
+    <td>{{ props.task.title }}</td>
     <td>
-      <ActionMenu />
+      <ActionMenu :actions="actions" @action-click="handleAction" />
     </td>
   </tr>
 </template>
@@ -17,4 +17,36 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['edit-task', 'delete-task', 'view-task']);
+
+const actions = [
+  {
+    label: 'View',
+    icon: 'mdi mdi-eye', 
+    type: 'info',
+    action: 'view',
+  },
+  {
+    label: 'Edit',
+    icon: 'mdi mdi-pencil', 
+    type: 'primary',
+    action: 'edit',
+  },
+  {
+    label: 'Delete',
+    icon: 'mdi mdi-delete', 
+    type: 'danger',
+    action: 'delete',
+  },
+];
+
+function handleAction(action) {
+  if (action.action === 'view') {
+    emit('view-task', props.task);
+  } else if (action.action === 'edit') {
+    emit('edit-task', props.task);
+  } else if (action.action === 'delete') {
+    emit('delete-task', props.task);
+  }
+}
 </script>
