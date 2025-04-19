@@ -14,7 +14,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ms-auto" :key="authStore.isAuthenticated">
           <li class="nav-item" v-for="route in filteredRoutes" :key="route.name">
             <RouterLink :to="route.path" class="nav-link">{{ route.name }}</RouterLink>
           </li>
@@ -29,21 +29,17 @@ import { computed } from 'vue'
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
 
+// Route Groups
+const AUTHENTICATED_ROUTES = ['Task', 'Logout']
+const PUBLIC_ROUTES = ['Register', 'Login']
+
 const authStore = useAuthStore()
 
-// Store properties 
-const isAuthenticated = computed(() => authStore.isAuthenticated)
-
+// Dynamically filter routes based on authentication status
 const filteredRoutes = computed(() => {
-  const baseRoutes = router.options.routes.filter((route) =>
-    ['Register', 'Login'].includes(route.name),
-  )
-
-  // Check if the user is authenticated add tasks route to the navbar
-  if (isAuthenticated) {
-    baseRoutes.push(router.options.routes.find((route) => route.name === 'Task' ))
+  if (authStore.isAuthenticated) {
+    return router.options.routes.filter((route) => AUTHENTICATED_ROUTES.includes(route.name))
   }
-
-  return baseRoutes
+  return router.options.routes.filter((route) => PUBLIC_ROUTES.includes(route.name))
 })
 </script>
