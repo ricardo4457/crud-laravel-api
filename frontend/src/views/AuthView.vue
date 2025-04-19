@@ -2,7 +2,7 @@
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-6">
-        <h2 class="text-center mb-4">{{ isRegisterMode ? 'Register' : 'Login' }}</h2>
+        <h2 class="text-center mb-4">{{ isRegisterState ? 'Register' : 'Login' }}</h2>
         <form @submit.prevent="handleSubmit">
           <div class="mb-3">
             <label for="username" class="form-label">Username</label>
@@ -13,6 +13,7 @@
               v-model="formData.username"
               required
             />
+            <div v-if="apiErrors.username" class="text-danger">{{ apiErrors.username[0] }}</div>
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
@@ -23,8 +24,9 @@
               v-model="formData.password"
               required
             />
+            <div v-if="apiErrors.password" class="text-danger">{{ apiErrors.password[0] }}</div>
           </div>
-          <div v-if="isRegisterMode" class="mb-3">
+          <div v-if="isRegisterState" class="mb-3">
             <label for="passwordConfirmation" class="form-label">Confirm Password</label>
             <input
               type="password"
@@ -33,15 +35,19 @@
               v-model="formData.passwordConfirmation"
               required
             />
+            <div v-if="apiErrors.passwordConfirmation" class="text-danger">
+              {{ apiErrors.passwordConfirmation[0] }}
+            </div>
           </div>
-          <div v-if="errorMessage" class="text-danger mb-3">{{ errorMessage }}</div>
           <button type="submit" class="btn btn-primary w-100">
-            {{ isRegisterMode ? 'Register' : 'Login' }}
+            {{ isRegisterState ? 'Register' : 'Login' }}
           </button>
         </form>
         <div class="text-center mt-3">
           <button class="btn btn-link" @click="toggleMode">
-            {{ isRegisterMode ? 'Already have an account? Login' : "Don't have an account? Register" }}
+            {{
+              isRegisterState ? 'Already have an account? Login' : "Don't have an account? Register"
+            }}
           </button>
         </div>
       </div>
@@ -51,58 +57,58 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
 const router = useRouter()
+const route = useRoute()
 
-// Form data
 const formData = reactive({
   username: '',
   password: '',
   passwordConfirmation: '',
 })
 
-
-const errorMessage = ref('')
-
-const isRegisterMode = ref(false)
+const apiErrors = ref({})
+const isRegisterState = ref(route.meta.isRegisterState)
 
 const toggleMode = () => {
-  isRegisterMode.value = !isRegisterMode.value
-  errorMessage.value = '' 
+  isRegisterState.value = !isRegisterState.value // Toggle the mode
+  apiErrors.value = {}
+
+  if (isRegisterState.value) {
+    router.push({ name: 'Register' })
+  } else {
+    router.push({ name: 'Login' })
+  }
 }
 
-// Handle form submission
 const handleSubmit = async () => {
-  if (isRegisterMode.value && formData.password !== formData.passwordConfirmation) {
-    errorMessage.value = 'Passwords do not match.'
+  if (isRegisterState.value && formData.password !== formData.passwordConfirmation) {
+    apiErrors.value = { passwordConfirmation: ['Passwords do not match.'] }
     return
   }
 
   try {
-
-    if (isRegisterMode.value) {
-      // Register 
+    if (isRegisterState.value) {
+      // Register
       await authStore.register({
         username: formData.username,
         password: formData.password,
         password_confirmation: formData.passwordConfirmation,
       })
-      router.push({ name: 'login' }) // Redirect to login after registration
+      router.push({ name: 'Login' })
     } else {
-      // Login 
+      // Login
       await authStore.login({
         username: formData.username,
         password: formData.password,
       })
-      router.push({ name: 'task' }) // Redirect to task after login
+      router.push({ name: 'Task' })
     }
   } catch (error) {
-    errorMessage.value = isRegisterMode.value
-      ? 'Registration failed. Please try again.'
-      : 'Login failed. Please check your credentials.'
+    apiErrors.value = error.errors
   }
 }
 </script>
