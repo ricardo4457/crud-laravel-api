@@ -16,9 +16,6 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <RouterLink to="/" class="nav-link">Home</RouterLink>
-          </li>
-          <li class="nav-item">
             <RouterLink to="/register" class="nav-link">Register</RouterLink>
           </li>
           <li class="nav-item">
