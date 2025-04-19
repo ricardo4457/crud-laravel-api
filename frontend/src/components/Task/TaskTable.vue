@@ -7,19 +7,18 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="task in tasks" :key="task.id">
-        <td>{{ task.title }}</td>
-        <td>
-          <ActionMenu @action="(action) => emitAction(action, task.id)" />
-        </td>
-      </tr>
+      <TaskRow
+        v-for="task in tasks"
+        :key="task.id"
+        :task="task"
+        @action="(action, taskId) => emitAction(action, taskId)"
+      />
     </tbody>
   </table>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
-import ActionMenu from '@/components/ActionMenu.vue'
+import TaskRow from './TaskRow.vue'
 
 const props = defineProps({
   tasks: {
