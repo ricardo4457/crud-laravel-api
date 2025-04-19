@@ -11,9 +11,7 @@ export const useAuthStore = defineStore('authStore', () => {
 
   // Actions
   const login = async (formData) => {
-
     resetToken()
-
     try {
       const response = await axios.post('/api/login', formData)
       const responseData = response.data.data
@@ -22,7 +20,7 @@ export const useAuthStore = defineStore('authStore', () => {
       token.value = responseData.token
       isAuthenticated.value = true
 
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`
+      setAuthToken() 
     } catch (error) {
       throw extractErrors(error)
     }
@@ -35,9 +33,9 @@ export const useAuthStore = defineStore('authStore', () => {
 
       user.value = responseData.user
       token.value = responseData.token
-      isAuthenticated.value = false
+      isAuthenticated.value = true
 
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`
+      setAuthToken() 
     } catch (error) {
       throw extractErrors(error)
     }
@@ -60,6 +58,12 @@ export const useAuthStore = defineStore('authStore', () => {
     delete axios.defaults.headers.common['Authorization']
   }
 
+  const setAuthToken = () => {
+    if (token.value) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`
+    }
+  }
+
   return {
     user,
     token,
@@ -68,5 +72,6 @@ export const useAuthStore = defineStore('authStore', () => {
     login,
     logout,
     resetToken,
+    setAuthToken, 
   }
 })
