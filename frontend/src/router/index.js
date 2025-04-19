@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AuthView from '../views/AuthView.vue'
-import TaskView from '../views/TaskHomeView.vue'
+import TaskView from '../views/Task/TaskHomeView.vue'
 import { useAuthStore } from '@/stores/auth'
 
 
