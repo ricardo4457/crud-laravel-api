@@ -3,7 +3,6 @@ import AuthView from '../views/AuthView.vue'
 import TaskView from '../views/TaskHomeView.vue'
 import { useAuthStore } from '@/stores/auth'
 
-const authStore = useAuthStore()
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,13 +11,13 @@ const router = createRouter({
       path: '/',
       name: 'Login',
       component: AuthView,
-      meta: { isRegisterState: false },
+      meta: { isRegisterState: false }, 
     },
     {
       path: '/register',
       name: 'Register',
       component: AuthView,
-      meta: { isRegisterState: true },
+      meta: { isRegisterState: true }, 
     },
     {
       path: '/task',
@@ -29,8 +28,9 @@ const router = createRouter({
       path: '/logout',
       name: 'Logout',
       beforeEnter: (next) => {
+        const authStore = useAuthStore()
         authStore.logout()
-        next({ name: 'Login' })
+        next({ name: 'Login' }) 
       },
     },
   ],
