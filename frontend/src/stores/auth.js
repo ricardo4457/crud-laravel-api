@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import axios from 'axios'
+import extractErrors from '@/helpers/extractErrors'
 
 export const useAuthStore = defineStore('authStore', () => {
   // State
@@ -22,8 +23,7 @@ export const useAuthStore = defineStore('authStore', () => {
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`
     } catch (error) {
-      console.error('Login failed:', error)
-      throw error
+      throw extractErrors(error)
     }
   }
 
@@ -40,13 +40,12 @@ export const useAuthStore = defineStore('authStore', () => {
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`
     } catch (error) {
-      console.error('Registration failed:', error)
-      throw error
+      throw extractErrors(error)
     }
   }
 
   return {
-    user,
+    user, 
     token,
     isAuthenticated,
     register,
