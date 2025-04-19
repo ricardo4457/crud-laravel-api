@@ -19,8 +19,6 @@ export const useAuthStore = defineStore('authStore', () => {
       token.value = responseData.token
       isAuthenticated.value = true
 
-      localStorage.setItem('authToken', token.value)
-
       axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`
     } catch (error) {
       throw extractErrors(error)
@@ -34,9 +32,7 @@ export const useAuthStore = defineStore('authStore', () => {
 
       user.value = responseData.user
       token.value = responseData.token
-      isAuthenticated.value = true
-
-      localStorage.setItem('authToken', token.value)
+      isAuthenticated.value = false
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`
     } catch (error) {
@@ -49,14 +45,12 @@ export const useAuthStore = defineStore('authStore', () => {
     token.value = null
     isAuthenticated.value = false
 
-    localStorage.removeItem('authToken')
-
+    // Remove the token from Axios headers
     delete axios.defaults.headers.common['Authorization']
   }
 
-
   return {
-    user, 
+    user,
     token,
     isAuthenticated,
     register,
