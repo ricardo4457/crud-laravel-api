@@ -11,18 +11,19 @@ const router = createRouter({
       path: '/',
       name: 'Login',
       component: AuthView,
-      meta: { isRegisterState: false }, 
+      meta: { isRegisterState: false , requiresAuth: false  }, 
     },
     {
       path: '/register',
       name: 'Register',
       component: AuthView,
-      meta: { isRegisterState: true }, 
+      meta: { isRegisterState: true , requiresAuth: false  }, 
     },
     {
       path: '/task',
       name: 'Task',
       component: TaskView,
+      meta: { requiresAuth: true }, 
     },
     {
       path: '/logout',
@@ -32,8 +33,21 @@ const router = createRouter({
         authStore.logout()
         next({ name: 'Login' }) 
       },
+      meta: { requiresAuth: true }, 
     },
   ],
+})
+// Navigation guard to protect routes
+router.beforeEach((to, next) => {
+  const authStore = useAuthStore()
+
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+
+    next({ name: 'Login' })
+
+  } else {
+    next()
+  }
 })
 
 export default router
