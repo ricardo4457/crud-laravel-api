@@ -31,11 +31,14 @@ const router = createRouter({
       path: '/task/new',
       name: 'TaskCreate',
       component: TaskFormView,
+      props: (route) => ({ isEditMode: false }) 
+
     },
     {
       path: '/task/edit/:id',
       name: 'TaskEdit',
       component: TaskFormView,
+      props: (route) => ({ isEditMode: true, id: route.params.id }) 
     },
     {
       path: '/task/:id',

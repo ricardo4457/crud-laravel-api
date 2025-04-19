@@ -3,7 +3,10 @@
     <h1>Task Management</h1>
     <SearchInput @search="handleSearch" />
     <TaskTable :tasks="filteredTasks" />
+    <div class="mt-3">
+      <router-link to="/task/new" class="btn btn-primary">Create New Task</router-link>
   </div>
+</div>
 </template>
 
 <script setup>

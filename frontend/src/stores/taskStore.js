@@ -35,6 +35,18 @@ export const useTaskStore = defineStore('taskStore', () => {
     }
   };
   
+  const createTask = async (taskData) => {
+    const authStore = useAuthStore();
+    authStore.setAuthToken();
+    error.value = null;
+    try {
+      const response = await axios.post('/api/tasks', taskData);
+      tasks.value.push(response.data.data);
+    } catch (err) {
+      error.value = extractErrors(err) || 'Failed to create the task.';
+    }
+  };
+
   const searchTasks = async (query) => {
     const authStore = useAuthStore();
     authStore.setAuthToken();
@@ -53,5 +65,6 @@ export const useTaskStore = defineStore('taskStore', () => {
     fetchTasks,
     fetchTask,
     searchTasks,
+    createTask,
   };
 });

@@ -8,9 +8,10 @@
           type="text"
           id="title"
           class="form-control"
-          v-model="task.title"
+          v-model="formData.title"
           placeholder="Enter task title"
           required
+          :disabled="isSubmitting"
         />
       </div>
       <div class="mb-3">
@@ -18,36 +19,81 @@
         <textarea
           id="description"
           class="form-control"
-          v-model="task.description"
+          v-model="formData.description"
           placeholder="Enter task description"
           rows="4"
           required
+          :disabled="isSubmitting"
         ></textarea>
       </div>
-      <button type="submit" class="btn btn-primary">
-        {{ isEditMode ? 'Update Task' : 'Create Task' }}
-      </button>
-      <router-link to="/task" class="btn btn-secondary ms-2">Cancel</router-link>
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
+          {{ isEditMode ? 'Update Task' : 'Create Task' }}
+          <span v-if="isSubmitting" class="spinner-border spinner-border-sm ms-2"></span>
+        </button>
+        <router-link to="/task" class="btn btn-outline-secondary">Cancel</router-link>
+      </div>
     </form>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useTaskStore } from '@/stores/taskStore'
+
+const props = defineProps({
+  id: {
+    type: String,
+    default: null,
+  },
+  isEditMode: {
+    type: Boolean,
+    default: false,
+  },
+})
 
 const router = useRouter()
+const taskStore = useTaskStore()
 
-const isEditMode = ref(false)
+const isSubmitting = ref(false)
+const formData = ref({
+  title: '',
+  description: '',
+})
 
-function handleSubmit() {
-  if (isEditMode.value) {
-    console.log('Updating task:', task.value)
-    router.push('/task')
-  } else {
-    console.log('Creating new task:', task.value)
-    router.push('/task')
+onMounted(async () => {
+  if (props.isEditMode && props.id) {
+    try {
+      await taskStore.fetchTask(props.id)
+      if (taskStore.task) {
+        formData.value = {
+          title: taskStore.task.title,
+          description: taskStore.task.description,
+        }
+      }
+    } catch (error) {
+      console.error('Error loading task:', error)
+    }
   }
-  router.push('/task')
+})
+
+async function handleSubmit() {
+  if (isSubmitting.value) return
+
+  isSubmitting.value = true
+
+  try {
+    if (props.isEditMode && props.id) {
+      await taskStore.updateTask(props.id, formData.value)
+    } else {
+      await taskStore.createTask(formData.value)
+    }
+    router.push({ name: 'Task' })
+  } catch (error) {
+    console.error('Form submission error:', error)
+  } finally {
+    isSubmitting.value = false
+  }
 }
 </script>
