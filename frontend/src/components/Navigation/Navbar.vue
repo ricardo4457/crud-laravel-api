@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
     <div class="container-fluid">
-      <RouterLink to="/" class="navbar-brand">Tasks</RouterLink>
+      <span class="navbar-brand">Tasks</span>
       <button
         class="navbar-toggler"
         type="button"
