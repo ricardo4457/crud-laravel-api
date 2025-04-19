@@ -45,8 +45,8 @@ function handleAction(action) {
   if (action.action === 'view') {
     router.push({ name: 'TaskView', params: { id: props.task.id } })
   } else if (action.action === 'edit') {
-    console.log('Edit action triggered for task:', props.task)
-  } else if (action.action === 'delete') {
+    router.push({ name: 'TaskEdit', params: { id: props.task.id } })
+    } else if (action.action === 'delete') {
     console.log('Delete action triggered for task:', props.task)
   }
 }

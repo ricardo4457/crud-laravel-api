@@ -47,6 +47,21 @@ export const useTaskStore = defineStore('taskStore', () => {
     }
   };
 
+  const updateTask = async (id, taskData) => {
+    const authStore = useAuthStore();
+    authStore.setAuthToken();
+    error.value = null;
+    try {
+      const response = await axios.put(`/api/tasks/${id}`, taskData);
+      const index = tasks.value.findIndex(task => task.id === id);
+      if (index !== -1) {
+        tasks.value[index] = response.data.data;
+      }
+    } catch (err) {
+      error.value = extractErrors(err) || 'Failed to update the task.';
+    }
+  };
+
   const searchTasks = async (query) => {
     const authStore = useAuthStore();
     authStore.setAuthToken();
@@ -66,5 +81,6 @@ export const useTaskStore = defineStore('taskStore', () => {
     fetchTask,
     searchTasks,
     createTask,
+    updateTask,
   };
 });
