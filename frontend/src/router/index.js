@@ -38,13 +38,11 @@ const router = createRouter({
   ],
 })
 // Navigation guard to protect routes
-router.beforeEach((to, next) => {
+router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-
     next({ name: 'Login' })
-
   } else {
     next()
   }
