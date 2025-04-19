@@ -7,26 +7,35 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import SearchInput from '@/components/SearchInput.vue';
 import TaskTable from '@/components/Task/TaskTable.vue';
+import { useTaskStore } from '@/stores/taskStore';
 
-const tasks = ref([
-  { id: 1, title: 'Task 1', description: 'Description 1' },
-  { id: 2, title: 'Task 2', description: 'Description 2' },
-  { id: 3, title: 'Task 3', description: 'Description 3' },
-]);
+const taskStore = useTaskStore();
+
+onMounted(() => {
+  taskStore.fetchTasks().then(() => {
+    console.log('Fetched Tasks:', taskStore.tasks);
+  });
+});
 
 const searchQuery = ref('');
-const filteredTasks = computed(() =>
-  tasks.value.filter(task =>
-    task.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-  )
-);
 
 function handleSearch(query) {
   searchQuery.value = query;
+  console.log('Search Query:', query);
 }
+
+const filteredTasks = computed(() => {
+  if (!searchQuery.value) {
+    return taskStore.tasks;
+  }
+});
+// Debugging: Log the filtered tasks
+// watch(filteredTasks, (newTasks) => {
+//   console.log('Filtered Tasks Updated:', newTasks);
+// });
 
 function handleAction(action, taskId) {
   console.log(`Action: ${action}, Task ID: ${taskId}`);
