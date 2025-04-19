@@ -44,11 +44,23 @@ export const useAuthStore = defineStore('authStore', () => {
     }
   }
 
+  const logout = () => {
+    user.value = null
+    token.value = null
+    isAuthenticated.value = false
+
+    localStorage.removeItem('authToken')
+
+    delete axios.defaults.headers.common['Authorization']
+  }
+
+
   return {
     user, 
     token,
     isAuthenticated,
     register,
     login,
+    logout,
   }
 })
