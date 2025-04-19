@@ -9,6 +9,24 @@ export const useAuthStore = defineStore('authStore', () => {
   const isAuthenticated = ref(false)
 
   // Actions
+  const login = async (formData) => {
+    try {
+      const response = await axios.post('/api/login', formData)
+      const responseData = response.data.data
+
+      user.value = responseData.user
+      token.value = responseData.token
+      isAuthenticated.value = true
+
+      localStorage.setItem('authToken', token.value)
+
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token.value}`
+    } catch (error) {
+      console.error('Login failed:', error)
+      throw error
+    }
+  }
+
   const register = async (formData) => {
     try {
       const response = await axios.post('/api/register', formData)
@@ -32,5 +50,6 @@ export const useAuthStore = defineStore('authStore', () => {
     token,
     isAuthenticated,
     register,
+    login,
   }
 })

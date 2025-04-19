@@ -93,7 +93,11 @@ const handleSubmit = async () => {
       router.push({ name: 'login' }) // Redirect to login after registration
     } else {
       // Login 
-
+      await authStore.login({
+        username: formData.username,
+        password: formData.password,
+      })
+      router.push({ name: 'task' }) // Redirect to task after login
     }
   } catch (error) {
     errorMessage.value = isRegisterMode.value
