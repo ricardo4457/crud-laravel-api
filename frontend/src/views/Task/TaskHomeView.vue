@@ -13,6 +13,7 @@ import TaskTable from '@/components/Task/TaskTable.vue';
 import { useTaskStore } from '@/stores/taskStore';
 
 const taskStore = useTaskStore();
+const searchQuery = ref('');
 
 onMounted(() => {
   taskStore.fetchTasks().then(() => {
@@ -20,16 +21,18 @@ onMounted(() => {
   });
 });
 
-const searchQuery = ref('');
-
-function handleSearch(query) {
+async function handleSearch(query) {
   searchQuery.value = query;
   console.log('Search Query:', query);
+  
+  if (query.trim()) {
+    await taskStore.searchTasks(query);
+  } else {
+    await taskStore.fetchTasks();
+  }
 }
 
 const filteredTasks = computed(() => {
-  if (!searchQuery.value) {
-    return taskStore.tasks;
-  }
+  return taskStore.tasks;
 });
 </script>

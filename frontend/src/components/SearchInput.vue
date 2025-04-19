@@ -13,6 +13,7 @@
 <script setup>
 import { ref } from 'vue';
 
+const emit = defineEmits(['search']); 
 const query = ref('');
 
 function emitSearch() {

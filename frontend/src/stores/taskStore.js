@@ -34,12 +34,24 @@ export const useTaskStore = defineStore('taskStore', () => {
       error.value = extractErrors(err) || 'Failed to fetch the task.';
     }
   };
-
+  
+  const searchTasks = async (query) => {
+    const authStore = useAuthStore();
+    authStore.setAuthToken();
+    error.value = null;
+    try {
+      const response = await axios.post('/api/tasks/search', { query });
+      tasks.value = response.data.data;
+    } catch (err) {
+      error.value = extractErrors(err) || 'Failed to search tasks.';
+    }
+  };
   return {
     tasks,
     task,
     error,
     fetchTasks,
     fetchTask,
+    searchTasks,
   };
 });
