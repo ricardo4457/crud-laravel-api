@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AuthView from '../views/AuthView.vue'
 import TaskHomeView from '../views/Task/TaskHomeView.vue'
 import TaskFormView from '../views/Task/TaskFormView.vue'
+import TaskView from '../views/Task/TaskView.vue'
+
 import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
@@ -27,11 +29,19 @@ const router = createRouter({
     },
     {
       path: '/task/new',
+      name: 'TaskCreate',
       component: TaskFormView,
     },
-    { 
-      path: '/task/edit/:id', 
-      component: TaskFormView },
+    {
+      path: '/task/edit/:id',
+      name: 'TaskEdit',
+      component: TaskFormView,
+    },
+    {
+      path: '/task/:id',
+      name: 'TaskView',
+      component: TaskView,
+    },
     {
       path: '/logout',
       name: 'Logout',

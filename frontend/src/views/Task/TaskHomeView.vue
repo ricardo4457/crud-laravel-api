@@ -32,12 +32,4 @@ const filteredTasks = computed(() => {
     return taskStore.tasks;
   }
 });
-// Debugging: Log the filtered tasks
-// watch(filteredTasks, (newTasks) => {
-//   console.log('Filtered Tasks Updated:', newTasks);
-// });
-
-function handleAction(action, taskId) {
-  console.log(`Action: ${action}, Task ID: ${taskId}`);
-}
 </script>

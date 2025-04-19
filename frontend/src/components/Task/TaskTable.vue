@@ -11,7 +11,6 @@
         v-for="task in tasks"
         :key="task.id"
         :task="task"
-        @action="(action, taskId) => emitAction(action, taskId)"
       />
     </tbody>
   </table>
@@ -27,11 +26,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['action'])
 
-function emitAction(action, taskId) {
-  emit('action', action, taskId)
-}
 // Debugging: Log the tasks passed to TaskTable
 // onMounted(() => {
 //   console.log('Tasks passed to TaskTable:', props.tasks);

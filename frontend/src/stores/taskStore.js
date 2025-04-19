@@ -23,10 +23,23 @@ export const useTaskStore = defineStore('taskStore', () => {
     }
   };
 
+  const fetchTask = async (id) => {
+    const authStore = useAuthStore();
+    authStore.setAuthToken();
+    error.value = null;
+    try {
+      const response = await axios.get(`/api/tasks/${id}`);
+      task.value = response.data.data;
+    } catch (err) {
+      error.value = extractErrors(err) || 'Failed to fetch the task.';
+    }
+  };
+
   return {
     tasks,
     task,
     error,
     fetchTasks,
+    fetchTask,
   };
 });
