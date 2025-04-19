@@ -1,5 +1,5 @@
 <template>
-<nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
     <div class="container-fluid">
       <RouterLink to="/" class="navbar-brand">Tasks</RouterLink>
       <button
@@ -15,11 +15,8 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <RouterLink to="/register" class="nav-link">Register</RouterLink>
-          </li>
-          <li class="nav-item">
-            <RouterLink to="/login" class="nav-link">Login</RouterLink>
+          <li class="nav-item" v-for="route in filteredRoutes" :key="route.name">
+            <RouterLink :to="route.path" class="nav-link">{{ route.name }}</RouterLink>
           </li>
         </ul>
       </div>
@@ -28,5 +25,25 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
+import { computed } from 'vue'
+import router from '@/router'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
+
+// Store properties 
+const isAuthenticated = computed(() => authStore.isAuthenticated)
+
+const filteredRoutes = computed(() => {
+  const baseRoutes = router.options.routes.filter((route) =>
+    ['Register', 'Login'].includes(route.name),
+  )
+
+  // Check if the user is authenticated add tasks route to the navbar
+  if (isAuthenticated) {
+    baseRoutes.push(router.options.routes.find((route) => route.name === 'Task' ))
+  }
+
+  return baseRoutes
+})
 </script>
