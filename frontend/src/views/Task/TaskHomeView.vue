@@ -2,7 +2,7 @@
   <div class="container mt-4">
     <h1>Task Management</h1>
     <SearchInput @search="handleSearch" />
-    <TaskTable :tasks="filteredTasks" @action="handleAction" />
+    <TaskTable :tasks="filteredTasks" />
   </div>
 </template>
 
