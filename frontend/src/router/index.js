@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import AuthView from '../views/AuthView.vue' 
-
+import AuthView from '../views/AuthView.vue'
 import TaskView from '../views/TaskHomeView.vue'
 
 const router = createRouter({
@@ -9,17 +8,19 @@ const router = createRouter({
     {
       path: '/',
       name: 'Login',
-      component: AuthView
+      component: AuthView,
+      meta: { isRegisterState: false }, 
     },
     {
       path: '/register',
       name: 'Register',
-      component: AuthView
+      component: AuthView,
+      meta: { isRegisterState: true }, 
     },
     {
       path: '/task',
       name: 'Task',
-      component: TaskView
+      component: TaskView,
     },
   ],
 })

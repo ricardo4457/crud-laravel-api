@@ -13,7 +13,7 @@ import { RouterView } from 'vue-router'
     <!-- Main Content -->
     <main class="flex-grow-1 d-flex align-items-center justify-content-center bg-light">
       <div class="container">
-        <RouterView />
+        <RouterView :key="$route.name" />
       </div>
     </main>
   </div>
