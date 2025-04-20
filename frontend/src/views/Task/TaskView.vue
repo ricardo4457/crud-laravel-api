@@ -36,11 +36,11 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useTaskStore } from '@/stores/task'
-import TaskHeader from '@/components/View/TaskHeader.vue'
-import TaskLoading from '@/components/View/TaskLoading.vue'
-import TaskInfoCard from '@/components/View/TaskInfoCard.vue'
-import DataCard from '@/components/View/DataCard.vue'
-import DataItem from '@/components/View/DataItem.vue'
+import TaskHeader from '@/components/Task/View/TaskHeader.vue'
+import TaskLoading from '@/components/Task/TaskLoading.vue'
+import TaskInfoCard from '@/components/Task/View/TaskInfoCard.vue'
+import DataCard from '@/components/Task/View/DataCard.vue'
+import DataItem from '@/components/Task/View/DataItem.vue'
 
 const route = useRoute()
 const taskStore = useTaskStore()

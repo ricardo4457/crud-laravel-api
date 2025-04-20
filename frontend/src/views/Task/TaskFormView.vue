@@ -46,7 +46,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTaskStore } from '@/stores/task'
-import TaskLoading from '@/components/View/TaskLoading.vue' 
+import TaskLoading from '@/components/Task/TaskLoading.vue' 
 
 const props = defineProps({
   id: {
