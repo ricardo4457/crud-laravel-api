@@ -1,42 +1,34 @@
 <template>
   <div class="container mt-4">
-    <h1>{{ isEditMode ? 'Edit Task' : 'Create New Task' }}</h1>
+    <TaskFormHeader :is-edit-mode="isEditMode" />
     
     <TaskLoading v-if="loadingTask" />
     
     <template v-else>
       <form @submit.prevent="handleSubmit">
-        <div class="mb-3">
-          <label for="title" class="form-label">Title</label>
-          <input
-            type="text"
-            id="title"
-            class="form-control"
-            v-model="formData.title"
-            placeholder="Enter task title"
-            required
-            :disabled="isSubmitting"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="description" class="form-label">Description</label>
-          <textarea
-            id="description"
-            class="form-control"
-            v-model="formData.description"
-            placeholder="Enter task description"
-            rows="4"
-            required
-            :disabled="isSubmitting"
-          ></textarea>
-        </div>
-        <div class="d-flex gap-2">
-          <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
-            {{ isEditMode ? 'Update Task' : 'Create Task' }}
-            <span v-if="isSubmitting" class="spinner-border spinner-border-sm ms-2"></span>
-          </button>
-          <router-link to="/task" class="btn btn-outline-secondary">Cancel</router-link>
-        </div>
+        <TaskFormInput
+          id="title"
+          label="Title"
+          v-model="formData.title"
+          placeholder="Enter task title"
+          :required="true"
+          :disabled="isSubmitting"
+        />
+        
+        <TaskFormInput
+          id="description"
+          label="Description"
+          v-model="formData.description"
+          placeholder="Enter task description"
+          :required="true"
+          :disabled="isSubmitting"
+          :multiline="true"
+        />
+        
+        <TaskFormActions 
+          :is-edit-mode="isEditMode" 
+          :is-submitting="isSubmitting" 
+        />
       </form>
     </template>
   </div>
@@ -46,7 +38,10 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTaskStore } from '@/stores/task'
-import TaskLoading from '@/components/Task/TaskLoading.vue' 
+import TaskLoading from '@/components/Task/TaskLoading.vue'
+import TaskFormHeader from '@/components/Task/Form/TaskFormHeader.vue'
+import TaskFormInput from '@/components/Task/Form/TaskFormInput.vue'
+import TaskFormActions from '@/components/Task/Form/TaskFormActions.vue'
 
 const props = defineProps({
   id: {
@@ -63,7 +58,7 @@ const router = useRouter()
 const taskStore = useTaskStore()
 
 const isSubmitting = ref(false)
-const loadingTask = ref(false) 
+const loadingTask = ref(false)
 const formData = ref({
   title: '',
   description: '',
