@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import SearchInput from '@/components/SearchInput.vue'
 import TaskTable from '@/components/Task/Table/TaskTable.vue'
 import { useTaskStore } from '@/stores/task'
