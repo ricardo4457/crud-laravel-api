@@ -5,42 +5,53 @@
     <TaskTable :tasks="filteredTasks" />
     <div class="mt-3">
       <router-link to="/task/new" class="btn btn-primary">Create New Task</router-link>
+    </div>
   </div>
-</div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import SearchInput from '@/components/SearchInput.vue';
-import TaskTable from '@/components/Task/TaskTable.vue';
-import { useTaskStore } from '@/stores/task';
+import { ref, computed, onMounted, watch } from 'vue'
+import SearchInput from '@/components/SearchInput.vue'
+import TaskTable from '@/components/Task/TaskTable.vue'
+import { useTaskStore } from '@/stores/task'
 
-const taskStore = useTaskStore();
-const searchQuery = ref('');
+const taskStore = useTaskStore()
+const searchQuery = ref('')
+const isRefreshing = ref(false)
 
 onMounted(() => {
-  taskStore.fetchTasks().then(() => {
-    console.log('Fetched Tasks:', taskStore.tasks);
-  });
-  // for debugging purposes
-  // taskStore.fetchTasks().then(() => {
-  //   console.log('Fetched Tasks:', taskStore.tasks);
-  // });
-});
+  refreshTasks()
+})
 
-async function handleSearch(query) {
-  searchQuery.value = query;
-  // for debugging purposes
-  // console.log('Search Query:', query);
-  
-  if (query.trim()) {
-    await taskStore.searchTasks(query);
-  } else {
-    await taskStore.fetchTasks();
+watch(
+  () => taskStore.tasks,
+  (newTasks, oldTasks) => {
+    if (oldTasks && oldTasks.length > 0) {
+      refreshTasks()
+    }
+  },
+  { deep: true },
+)
+
+async function refreshTasks() {
+  isRefreshing.value = true
+  try {
+    if (searchQuery.value.trim()) {
+      await taskStore.searchTasks(searchQuery.value)
+    } else {
+      await taskStore.fetchTasks()
+    }
+  } finally {
+    isRefreshing.value = false
   }
 }
 
+async function handleSearch(query) {
+  searchQuery.value = query
+  await refreshTasks()
+}
+
 const filteredTasks = computed(() => {
-  return taskStore.tasks;
-});
+  return taskStore.tasks
+})
 </script>

@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useTaskStore } from '@/stores/task'
 
@@ -23,7 +23,16 @@ const taskStore = useTaskStore()
 const { task, error, fetchTask } = taskStore
 
 onMounted(() => {
-  const taskId = route.params.id
-  fetchTask(taskId)
+  fetchTask(route.params.id)
 })
+
+watch(
+  () => route.params.id,
+  (newId) => {
+    if (newId) {
+      fetchTask(newId)
+    }
+  },
+  { deep: true },
+)
 </script>
