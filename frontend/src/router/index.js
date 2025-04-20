@@ -32,14 +32,13 @@ const router = createRouter({
       path: '/task/new',
       name: 'TaskCreate',
       component: TaskFormView,
-      props: (route) => ({ isEditMode: false }) 
-
+      props: (route) => ({ isEditMode: false }),
     },
     {
       path: '/task/edit/:id',
       name: 'TaskEdit',
       component: TaskFormView,
-      props: (route) => ({ isEditMode: true, id: route.params.id }) 
+      props: (route) => ({ isEditMode: true, id: route.params.id }),
     },
     {
       path: '/task/:id',
@@ -54,10 +53,10 @@ const router = createRouter({
         try {
           const taskStore = useTaskStore()
           await taskStore.deleteTask(to.params.id)
-          next({ name: 'Task' }) 
+          next({ name: 'Task' })
         } catch (error) {
           console.error('Delete failed:', error)
-          next(false) 
+          next(false)
         }
       },
       meta: { requiresAuth: true },

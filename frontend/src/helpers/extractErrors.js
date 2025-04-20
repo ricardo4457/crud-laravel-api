@@ -3,12 +3,12 @@ const extractErrors = (error) => {
     const response = error.response.data
     return {
       message: response.message || 'An error occurred. Please try again.',
-      errors: response.errors || {}, 
+      errors: response.errors || {},
     }
   }
   return {
     message: 'An unexpected error occurred. Please try again later.',
-    errors: {}, 
+    errors: {},
   }
 }
 

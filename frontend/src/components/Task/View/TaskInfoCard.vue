@@ -14,6 +14,6 @@
 defineProps({
   title: String,
   id: [String, Number],
-  description: String
+  description: String,
 })
 </script>

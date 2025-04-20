@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('authStore', () => {
       token.value = responseData.token
       isAuthenticated.value = true
 
-      setAuthToken() 
+      setAuthToken()
     } catch (error) {
       throw extractErrors(error)
     }
@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('authStore', () => {
       token.value = responseData.token
       isAuthenticated.value = true
 
-      setAuthToken() 
+      setAuthToken()
     } catch (error) {
       throw extractErrors(error)
     }
@@ -47,7 +47,6 @@ export const useAuthStore = defineStore('authStore', () => {
     isAuthenticated.value = false
 
     resetToken()
-    
   }
 
   const resetToken = () => {
@@ -71,6 +70,6 @@ export const useAuthStore = defineStore('authStore', () => {
     login,
     logout,
     resetToken,
-    setAuthToken, 
+    setAuthToken,
   }
 })

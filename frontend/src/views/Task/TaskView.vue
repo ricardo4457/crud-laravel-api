@@ -1,17 +1,13 @@
 <template>
   <div class="container mt-4">
     <TaskHeader />
-    
+
     <TaskLoading v-if="loading" />
-    
+
     <div v-else-if="task" class="card">
       <div class="card-body">
-        <TaskInfoCard 
-          :title="task.title"
-          :id="task.id"
-          :description="task.description"
-        />
-        
+        <TaskInfoCard :title="task.title" :id="task.id" :description="task.description" />
+
         <div class="row">
           <div class="col-md-6 mb-3">
             <DataCard title="Timestamps">
@@ -19,7 +15,7 @@
               <DataItem label="Updated" :value="formatDate(task.timestamp.updated_at)" />
             </DataCard>
           </div>
-          
+
           <div class="col-md-6 mb-3">
             <DataCard title="User Information">
               <DataItem label="User ID" :value="task.relationship.user_id" />
@@ -61,7 +57,7 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('pt-PT', {
     day: '2-digit',
     month: '2-digit',
-    year: 'numeric'
+    year: 'numeric',
   })
 }
 </script>

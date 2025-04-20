@@ -1,9 +1,9 @@
 <template>
   <div class="container mt-4">
     <TaskFormHeader :is-edit-mode="isEditMode" />
-    
+
     <TaskLoading v-if="loadingTask" />
-    
+
     <template v-else>
       <form @submit.prevent="handleSubmit">
         <TaskFormInput
@@ -14,7 +14,7 @@
           :required="true"
           :disabled="isSubmitting"
         />
-        
+
         <TaskFormInput
           id="description"
           label="Description"
@@ -24,11 +24,8 @@
           :disabled="isSubmitting"
           :multiline="true"
         />
-        
-        <TaskFormActions 
-          :is-edit-mode="isEditMode" 
-          :is-submitting="isSubmitting" 
-        />
+
+        <TaskFormActions :is-edit-mode="isEditMode" :is-submitting="isSubmitting" />
       </form>
     </template>
   </div>

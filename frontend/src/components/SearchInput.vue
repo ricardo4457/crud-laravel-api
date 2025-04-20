@@ -11,12 +11,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
 
-const emit = defineEmits(['search']); 
-const query = ref('');
+const emit = defineEmits(['search'])
+const query = ref('')
 
 function emitSearch() {
-  emit('search', query.value);
+  emit('search', query.value)
 }
 </script>

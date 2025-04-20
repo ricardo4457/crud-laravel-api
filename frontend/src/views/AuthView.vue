@@ -74,7 +74,7 @@ const apiErrors = ref({})
 const isRegisterState = ref(route.meta.isRegisterState)
 
 const toggleMode = () => {
-  isRegisterState.value = !isRegisterState.value 
+  isRegisterState.value = !isRegisterState.value
   apiErrors.value = {}
 
   if (isRegisterState.value) {

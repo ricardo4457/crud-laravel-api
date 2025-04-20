@@ -12,18 +12,17 @@
 </template>
 
 <script setup>
-
 defineProps({
   actions: {
     type: Array,
     required: true,
     default: () => [],
   },
-});
+})
 
-const emit = defineEmits(['action-click']);
+const emit = defineEmits(['action-click'])
 
 function emitAction(action) {
-  emit('action-click', action);
+  emit('action-click', action)
 }
 </script>
