@@ -2,7 +2,7 @@
   <div class="container mt-4">
     <h1>Task Management</h1>
     <SearchInput @search="handleSearch" />
-    <TaskTable :tasks="filteredTasks" />
+    <TaskTable :tasks="filteredTasks" @action-delete="handleActionDelete" />
     <div class="mt-3">
       <router-link to="/task/new" class="btn btn-primary">Create New Task</router-link>
     </div>
@@ -23,15 +23,6 @@ onMounted(() => {
   refreshTasks()
 })
 
-watch(
-  () => taskStore.tasks,
-  (newTasks, oldTasks) => {
-    if (oldTasks && oldTasks.length > 0) {
-      refreshTasks()
-    }
-  },
-  { deep: true },
-)
 
 async function refreshTasks() {
   isRefreshing.value = true
@@ -49,6 +40,11 @@ async function refreshTasks() {
 async function handleSearch(query) {
   searchQuery.value = query
   await refreshTasks()
+}
+
+
+const handleActionDelete = () => {
+  refreshTasks()
 }
 
 const filteredTasks = computed(() => {

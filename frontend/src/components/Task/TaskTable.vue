@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table v-if="tasks.length > 0" class="table table-striped" >
+    <table v-if="tasks.length > 0" class="table table-striped">
       <thead>
         <tr>
           <th>Title</th>
@@ -8,7 +8,7 @@
         </tr>
       </thead>
       <tbody>
-        <TaskRow v-for="task in paginatedTasks" :key="task.id" :task="task" />
+        <TaskRow v-for="task in paginatedTasks" :key="task.id" :task="task" @action-delete="handleActionDelete" />
       </tbody>
     </table>
     <p v-else class="text-muted">No tasks found</p>
@@ -17,12 +17,7 @@
         <li class="page-item" :class="{ disabled: currentPage === 1 }">
           <button class="page-link" @click="prevPage">&laquo;</button>
         </li>
-        <li
-          class="page-item"
-          v-for="page in totalPages"
-          :key="page"
-          :class="{ active: page === currentPage }"
-        >
+        <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
           <button class="page-link" @click="goToPage(page)">{{ page }}</button>
         </li>
         <li class="page-item" :class="{ disabled: currentPage === totalPages }">
@@ -36,7 +31,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import TaskRow from './TaskRow.vue'
-
+const emit = defineEmits(['action-delete'])
 const props = defineProps({
   tasks: {
     type: Array,
@@ -71,6 +66,9 @@ const prevPage = () => {
   }
 }
 
+const handleActionDelete = (action) => {
+  emit('action-delete', action)
+}
 </script>
 
 <style scoped>

@@ -12,6 +12,7 @@ import ActionMenu from '@/components/ActionMenu.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const emit = defineEmits(['action-delete'])
 
 const props = defineProps({
   task: {
@@ -48,6 +49,7 @@ function handleAction(action) {
     router.push({ name: 'TaskEdit', params: { id: props.task.id } })
   } else if (action.action === 'delete') {
     router.push({ name: 'TaskDelete', params: { id: props.task.id } })
+    emit('action-delete', action)
   }
 }
 </script>
