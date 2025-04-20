@@ -3,8 +3,8 @@
     <div class="input-group" style="width: 200px">
       <label class="input-group-text" for="sortOrder">Sort by</label>
       <select id="sortOrder" class="form-select" v-model="sortOrder" @change="emitSortChange">
-        <option value="newest">Newest First</option>
-        <option value="oldest">Oldest First</option>
+        <option value="newest">Newest</option>
+        <option value="oldest">Oldest</option>
       </select>
     </div>
   </div>
