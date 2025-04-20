@@ -1,7 +1,6 @@
-
 # **Laravel CRUD API with Vue Frontend**
 
-This full-stack project combines a Laravel API with a Vue 3 frontend (Vite) to implement robust CRUD operations, user authentication, CSV export, and activity logging.
+This full-stack project combines a Laravel API with a Vue 3 frontend (Vite) to implement robust CRUD operations, user authentication, and activity logging.
 
 ---
 
@@ -19,7 +18,6 @@ This full-stack project combines a Laravel API with a Vue 3 frontend (Vite) to i
 
 - Full RESTful CRUD for user tasks.
 - Auth system (register/login/logout) using Laravel Sanctum.
-- CSV export functionality for tasks.
 - Activity logging using `spatie/laravel-activitylog`.
 - Reusable API response structure via Traits.
 - Vue 3 frontend with Vue Router & Axios.
@@ -42,8 +40,8 @@ This full-stack project combines a Laravel API with a Vue 3 frontend (Vite) to i
 
 ```bash
 git clone https://github.com/ricardo4457/crud-laravel-api.git
-cd  crud-laravel-api
-cd  backend
+cd crud-laravel-api
+cd backend
 composer install
 cp .env.example .env
 php artisan key:generate
@@ -80,7 +78,6 @@ Update the API URL (assuming backend is on port 8000):
 ```env
 VITE_API_URL=http://localhost:8000/api
 ```
-
 
 ### 3. Run the Vue Dev Server
 
@@ -145,7 +142,6 @@ axios.defaults.withCredentials = true;
 - `POST /api/tasks`
 - `PUT /api/tasks/{id}`
 - `DELETE /api/tasks/{id}`
-- `GET /api/tasks/export`
 
 ---
 
@@ -167,15 +163,17 @@ POST /api/register
 
 ## **Activity Logging**
 
-- Logs user actions in `activity_log` table.
+- Logs user actions (create/update/delete) for tasks in the `activity_log` table.
 - Configured via `config/activitylog.php`.
 - Uses: `Spatie\Activitylog\Models\Activity`.
+- **Note:** Logging is functional on the backend within the Task model. However, activity logs are not yet displayed or utilized in the frontend interface.
 
 ---
 
 ## **Frontend Authentication Logic**
 
-- Auth token is stored in axios header in frontend and in db aswell both have expiration dates frontend wen user decides to logout and backend 24 hours token.
+- Auth token is stored in Axios header and in DB; both have expiration times.
+- Frontend handles logout manually; backend tokens expire after 24 hours.
 - Routes are protected via navigation guards.
 - Axios handles all API communication.
 - On login/register, token is saved and used for future requests.
@@ -186,11 +184,7 @@ POST /api/register
 
 - [x] Laravel CRUD for tasks
 - [x] Vue 3 SPA with auth
-- [ ] CSV export from frontend
 - [x] Activity logging
 - [x] Search/filter UI
 - [x] Pagination support
-- [ ] Role-based access control
-- [ ] Logs
-
----
+- [ ] Logs displayed in frontend
