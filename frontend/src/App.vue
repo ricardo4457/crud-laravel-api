@@ -5,12 +5,10 @@ import { RouterView } from 'vue-router'
 
 <template>
   <div class="d-flex flex-column vh-100">
-    <!-- Navbar -->
     <header class="flex-shrink-0">
       <Navbar />
     </header>
 
-    <!-- Main Content -->
     <main class="flex-grow-1 d-flex align-items-center justify-content-center bg-light">
       <div class="container">
         <RouterView :key="$route.name" />

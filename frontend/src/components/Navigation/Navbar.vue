@@ -29,13 +29,11 @@ import { computed } from 'vue'
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
 
-// Route Groups
 const AUTHENTICATED_ROUTES = ['Task', 'Logout']
 const PUBLIC_ROUTES = ['Register', 'Login']
 
 const authStore = useAuthStore()
 
-// Dynamically filter routes based on authentication status
 const filteredRoutes = computed(() => {
   if (authStore.isAuthenticated) {
     return router.options.routes.filter((route) => AUTHENTICATED_ROUTES.includes(route.name))

@@ -54,7 +54,6 @@ export const useAuthStore = defineStore('authStore', () => {
     token.value = null
     isAuthenticated.value = false
 
-    // Remove the token from Axios headers
     delete axios.defaults.headers.common['Authorization']
   }
 
