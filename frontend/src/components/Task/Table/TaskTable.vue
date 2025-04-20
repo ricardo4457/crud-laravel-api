@@ -1,9 +1,13 @@
 <template>
   <div>
-    <table v-if="tasks.length > 0" class="table table-striped">
+    <TaskFilters @sort-change="handleSortChange" />
+
+    <table v-if="sortedTasks.length > 0" class="table table-striped">
       <thead>
         <tr>
           <th>Title</th>
+          <th class="text-start">Created At</th>
+          <th class="text-start">Updated At</th>
           <th class="text-start">Actions</th>
         </tr>
       </thead>
@@ -17,6 +21,7 @@
       </tbody>
     </table>
     <p v-else class="text-muted">No tasks found</p>
+
     <nav v-if="totalPages > 1">
       <ul class="pagination justify-content-center">
         <li class="page-item" :class="{ disabled: currentPage === 1 }">
@@ -41,6 +46,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 import TaskRow from './TaskRow.vue'
+import TaskFilters from './TaskFilters.vue'
+
 const emit = defineEmits(['action-delete'])
 const props = defineProps({
   tasks: {
@@ -51,14 +58,37 @@ const props = defineProps({
 
 const itemsPerPage = 10
 const currentPage = ref(1)
+const sortDirection = ref('newest')
 
-const totalPages = computed(() => Math.ceil(props.tasks.length / itemsPerPage))
+const sortedTasks = computed(() => {
+  const tasksCopy = [...props.tasks]
+  if (sortDirection.value === 'oldest') {
+    // Debugging
+    // console.log('oldest')
+    return tasksCopy.sort(
+      (a, b) => new Date(a.timestamp.created_at) - new Date(b.timestamp.updated_at),
+    )
+  } else {
+    // Debugging
+    // console.log('newest')
+    return tasksCopy.sort(
+      (a, b) => new Date(b.timestamp.created_at) - new Date(a.timestamp.created_at),
+    )
+  }
+})
+
+const totalPages = computed(() => Math.ceil(sortedTasks.value.length / itemsPerPage))
 
 const paginatedTasks = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
   const end = start + itemsPerPage
-  return props.tasks.slice(start, end)
+  return sortedTasks.value.slice(start, end)
 })
+
+const handleSortChange = (direction) => {
+  sortDirection.value = direction
+  currentPage.value = 1
+}
 
 const goToPage = (page) => {
   currentPage.value = page
