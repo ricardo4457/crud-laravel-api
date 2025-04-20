@@ -5,6 +5,7 @@ import TaskFormView from '../views/Task/TaskFormView.vue'
 import TaskView from '../views/Task/TaskView.vue'
 
 import { useAuthStore } from '@/stores/auth'
+import { useTaskStore } from '@/stores/task'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,6 +46,21 @@ const router = createRouter({
       name: 'TaskView',
       component: TaskView,
       props: (route) => ({ id: route.params.id }),
+    },
+    {
+      path: '/task/delete/:id',
+      name: 'TaskDelete',
+      beforeEnter: async (to, from, next) => {
+        try {
+          const taskStore = useTaskStore()
+          await taskStore.deleteTask(to.params.id)
+          next({ name: 'Task' }) 
+        } catch (error) {
+          console.error('Delete failed:', error)
+          next(false) 
+        }
+      },
+      meta: { requiresAuth: true },
     },
     {
       path: '/logout',
