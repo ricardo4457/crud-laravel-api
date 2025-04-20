@@ -11,8 +11,14 @@
         <div class="row">
           <div class="col-md-6 mb-3">
             <DataCard title="Timestamps">
-              <DataItem label="Created" :value="formatDate(task.timestamp.created_at)" />
-              <DataItem label="Updated" :value="formatDate(task.timestamp.updated_at)" />
+              <DataItem
+                label="Created"
+                :value="formatDate(task.timestamp.created_at, DATE_FORMAT)"
+              />
+              <DataItem
+                label="Updated"
+                :value="formatDate(task.timestamp.updated_at, DATE_FORMAT)"
+              />
             </DataCard>
           </div>
 
@@ -32,11 +38,20 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useTaskStore } from '@/stores/task'
+import formatDate from '@/helpers/formatDate'
 import TaskHeader from '@/components/Task/View/TaskHeader.vue'
 import TaskLoading from '@/components/Task/TaskLoading.vue'
 import TaskInfoCard from '@/components/Task/View/TaskInfoCard.vue'
 import DataCard from '@/components/Task/View/DataCard.vue'
 import DataItem from '@/components/Task/View/DataItem.vue'
+
+const DATE_FORMAT = {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+}
 
 const route = useRoute()
 const taskStore = useTaskStore()
@@ -52,12 +67,4 @@ onMounted(async () => {
     loading.value = false
   }
 })
-
-const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('pt-PT', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  })
-}
 </script>
