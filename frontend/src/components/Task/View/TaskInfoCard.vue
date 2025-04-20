@@ -1,6 +1,6 @@
 <template>
   <div class="mb-4">
-    <h2 class="card-title">{{ title.value }}</h2>
+    <h2 class="card-title">{{ title }}</h2>
     <p class="text-muted" v-if="id">ID: {{ id }}</p>
   </div>
 
