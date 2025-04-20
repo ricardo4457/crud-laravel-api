@@ -175,7 +175,7 @@ POST /api/register
 
 ## **Frontend Authentication Logic**
 
-- Auth token is stored in localStorage.
+- Auth token is stored in axios header in frontend and in db aswell both have expiration dates frontend wen user decides to logout and backend 24 hours token.
 - Routes are protected via navigation guards.
 - Axios handles all API communication.
 - On login/register, token is saved and used for future requests.
