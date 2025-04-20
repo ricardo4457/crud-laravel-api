@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import ActionMenu from '@/components/ActionMenu.vue'
+import ActionMenu from '@/components/Task/Table/ActionMenu.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
