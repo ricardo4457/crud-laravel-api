@@ -29,7 +29,7 @@ This full-stack project combines a Laravel API with a Vue 3 frontend (Vite) to i
 
 ## **Backend Requirements**
 
-- **PHP** >= 8.0  
+- **PHP** >= 8.0
 - **Composer**
 - **MySQL** or compatible DB
 - **Node.js** (for frontend)
@@ -45,7 +45,6 @@ cd backend
 composer install
 cp .env.example .env
 php artisan key:generate
-# Update DB credentials in .env
 php artisan migrate --seed
 php artisan serve
 ```
@@ -91,7 +90,7 @@ Frontend will run at: **http://localhost:3000**
 
 ## **Laravel + Vue Integration**
 
-### Sanctum Auth 
+### Sanctum Auth
 
 For cookie-based login:
 
@@ -99,14 +98,6 @@ For cookie-based login:
 php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
 php artisan migrate
 ```
-
-Make sure Vue sends credentials:
-
-```js
-axios.defaults.withCredentials = true;
-```
-
----
 
 ## **Project Structure**
 
@@ -123,27 +114,46 @@ axios.defaults.withCredentials = true;
 
 - `frontend/src/views/`: Auth, Dashboard, Task pages
 - `frontend/src/router/`: Authenticated routing
-- `frontend/src/store/`: Pinia && Axios instance & API calls
+- `frontend/src/helpers/`: Reusable functions
+- `frontend/src/stores/`: Pinia && Axios instance & API calls
 - `frontend/src/components/`: UI Components
 
 ---
 
-## **API Routes**
+## API Routes
 
-### Public
+### Authentication
 
-- `POST /api/register`
-- `POST /api/login`
+| Method | Endpoint        | Description         | Controller & Method           |
+| ------ | --------------- | ------------------- | ----------------------------- |
+| POST   | `/api/register` | Register a new user | `Api\AuthController@register` |
+| POST   | `/api/login`    | Login user          | `Api\AuthController@login`    |
+| POST   | `/api/logout`   | Logout user         | `Api\AuthController@logout`   |
 
-### Protected (auth:sanctum)
+### Tasks (Requires Authentication)
 
-- `POST /api/logout`
-- `GET /api/tasks`
-- `POST /api/tasks`
-- `PUT /api/tasks/{id}`
-- `DELETE /api/tasks/{id}`
+| Method    | Endpoint            | Description       | Controller & Method                   |
+| --------- | ------------------- | ----------------- | ------------------------------------- |
+| GET       | `/api/tasks`        | List all tasks    | `Api\Task\TaskCrudController@index`   |
+| POST      | `/api/tasks`        | Create new task   | `Api\Task\TaskCrudController@store`   |
+| GET       | `/api/tasks/{task}` | Get specific task | `Api\Task\TaskCrudController@show`    |
+| PUT/PATCH | `/api/tasks/{task}` | Update task       | `Api\Task\TaskCrudController@update`  |
+| DELETE    | `/api/tasks/{task}` | Delete task       | `Api\Task\TaskCrudController@destroy` |
 
----
+### Additional Task Endpoints
+
+| Method | Endpoint                 | Description             | Controller & Method                  |
+| ------ | ------------------------ | ----------------------- | ------------------------------------ |
+| GET    | `/api/tasks/create`      | Show task creation form | `Api\Task\TaskCrudController@create` |
+| GET    | `/api/tasks/{task}/edit` | Show task edit form     | `Api\Task\TaskCrudController@edit`   |
+| POST   | `/api/tasks/search`      | Search tasks            | `Api\Task\TaskController@search`     |
+
+### System
+
+| Method | Endpoint               | Description                 |
+| ------ | ---------------------- | --------------------------- |
+| GET    | `/sanctum/csrf-cookie` | Get CSRF token for Sanctum  |
+| GET    | `/api/user`            | Get authenticated user data |
 
 ## **Sample API Request**
 
@@ -152,8 +162,7 @@ axios.defaults.withCredentials = true;
 ```json
 POST /api/register
 {
-  "name": "Jane Doe",
-  "email": "jane@example.com",
+  "username": "ricardo4457",
   "password": "password123",
   "password_confirmation": "password123"
 }
@@ -174,11 +183,34 @@ POST /api/register
 
 - Auth token is stored in Axios header and in DB; both have expiration times.
 - Frontend handles logout manually; backend tokens expire after 24 hours.
+
+  - Run schedule to revoke tokens
+    ```bash
+    php artisan schedule:work
+    ```
+
+  ````
+  - See all schedule available
+
+  ```bash
+  php artisan schedule:list
+  ````
+
 - Routes are protected via navigation guards.
 - Axios handles all API communication.
 - On login/register, token is saved and used for future requests.
 
----
+## Styles
+
+This project uses the following styling frameworks and resources:
+
+### Bootstrap 5
+
+- **Website**: [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
+
+### Icons - MDI Icons
+
+- **Website**: [Material Design Icons](https://pictogrammers.com/library/mdi/)
 
 ## **Roadmap**
 
