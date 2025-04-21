@@ -42,6 +42,22 @@ This full-stack project combines a Laravel API with a Vue 3 frontend (Vite) to i
 
 ---
 
+### Please run apache server and Mysql in my environment i am using xampp
+
+### XAMPP (Windows)
+🔗 [Download Latest XAMPP](https://www.apachefriends.org/download.html)  
+- **Version**: Choose PHP version matching your project (e.g., PHP 8.2+ for modern apps)  
+- **Size**: ~150MB (varies by version)  
+- **Requirements**: Windows 7+ (64-bit recommended)  
+
+
+### Laragon (Windows)
+🔗 [Download Laragon](https://laragon.org/download/index.html)  
+- **Options**:  
+  - **Full**: 85MB (includes all features)  
+  - **Portable**: 65MB (USB-friendly)  
+- **Requirements**: Windows 8.1+ (64-bit)  
+
 ## **Backend Setup (Laravel)**
 
 ```bash
