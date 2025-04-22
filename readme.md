@@ -145,11 +145,6 @@ The `UserFactory` defines the blueprint for creating fake users. It uses Laravel
 - `password`: Pre-hashed default password (securepassword123).
 - `remember_token`: Random string for session persistence.
 
-Useful for:
-
-- Simulating account-based features.
-- Testing authentication and user flows.
-
 ---
 
 ### `TaskFactory.php`
