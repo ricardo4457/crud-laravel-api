@@ -115,8 +115,6 @@ Frontend will run at: **http://localhost:3000**
 
 ## Database Seeding Overview
 
-This project uses Laravel’s seeding system to generate sample data for testing and development.
-
 ### `DatabaseSeeder.php`
 
 The `DatabaseSeeder` seeds the database by creating 10 users, and for each user, it attaches between 1 to 5 tasks. This provides a simple but realistic dataset for testing user-task relationships.
