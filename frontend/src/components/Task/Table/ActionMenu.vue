@@ -4,7 +4,7 @@
       v-for="(action, index) in actions"
       :key="index"
       :class="['btn', `btn-outline-${action.type}`, 'btn-sm']"
-      @click.prevent="emitAction(action)"
+      @click="emitAction(action)"
     >
       <i :class="action.icon"></i> {{ action.label }}
     </button>
